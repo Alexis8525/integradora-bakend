@@ -15,6 +15,7 @@ import recetaRoutes from "./routes/recetaRoutes.js";
 import sucursalRoutes from "./routes/sucursalRoutes.js";
 import alertaRoutes from "./routes/alertaRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import ventaRoutes from "./routes/ventaRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -43,6 +44,7 @@ app.use("/api/recetas", recetaRoutes);
 app.use("/api/sucursales", sucursalRoutes);
 app.use("/api/alertas", alertaRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/ventas", ventaRoutes);
 
 // Inicio del servidor
 const PORT = process.env.PORT || 4000;

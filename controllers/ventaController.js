@@ -49,3 +49,47 @@ export const eliminarVenta = async (req, res) => {
     res.status(500).json({ mensaje: "Error al eliminar venta", error });
   }
 };
+
+export const getVentasHoy = async (req, res) => {
+  try {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    
+    const ventasHoy = await Venta.find({
+      fecha: { $gte: hoy }
+    });
+    
+    const total = ventasHoy.reduce((sum, venta) => sum + venta.total, 0);
+    res.json({ total, cantidad: ventasHoy.length });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getTopCategorias = async (req, res) => {
+  try {
+    // Esta es una implementación básica - puedes mejorarla según tus necesidades
+    const ventas = await Venta.find().populate('productos.producto');
+    
+    // Simulación de categorías
+    const categorias = [
+      { categoria: 'Panadería', ventas: 45 },
+      { categoria: 'Pastelería', ventas: 32 },
+      { categoria: 'Bebidas', ventas: 28 }
+    ];
+    
+    res.json(categorias);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getVentasMensuales = async (req, res) => {
+  try {
+    const ventas = await Venta.find();
+    const totalMensual = ventas.reduce((sum, venta) => sum + venta.total, 0);
+    res.json({ total: totalMensual });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
